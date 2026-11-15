@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>VitalStock & Eco-Beauty · Prototipo</title>
+<style>
+:root{--pg:#dfe9e4;--pt:#22302b;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--pg:#0b1311;--pt:#dbe8e2;color-scheme:dark}}
+:root[data-theme="dark"]{--pg:#0b1311;--pt:#dbe8e2;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--pg);color:var(--pt);font:15px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;display:grid;place-items:center;min-height:100vh}
+.stage{padding:20px 10px;text-align:center}
+.cap{margin:14px auto 0;max-width:360px;font-size:13px;opacity:.75}
+.phone{position:relative;width:390px;height:790px;max-width:100%;margin:auto;background:#0d1512;border-radius:52px;padding:11px;box-shadow:0 30px 70px rgba(0,0,0,.4);text-align:left}
+.screen{position:relative;height:100%;border-radius:41px;overflow:hidden;background:#f1f6f3;color:#1d2b26;display:flex;flex-direction:column}
+.notch{position:absolute;top:9px;left:50%;transform:translateX(-50%);width:112px;height:28px;background:#0d1512;border-radius:16px;z-index:9}
+.sb{display:flex;justify-content:space-between;padding:14px 28px 4px;font:700 13px system-ui;color:#fff;background:#1f5d50}
+.hd{display:flex;align-items:center;gap:10px;padding:8px 16px 14px;background:linear-gradient(135deg,#1f5d50,#2a8c7a);color:#fff}
+.av{width:42px;height:42px;border-radius:50%;border:2px solid #fff;background:repeating-linear-gradient(135deg,#fff 0 7px,#e4704f 7px 14px,#2a8c7a 14px 21px)}
+.hd b{display:block;font-size:17px}.hd small{opacity:.85}
+.bd{flex:1;overflow:auto;padding:12px 14px}
+.nv{display:flex;border-top:1px solid #d3e0d9;background:#fff;padding:6px 6px 14px}
+.nv button{flex:1;border:0;background:none;font:600 11px inherit;color:#6a7c75;padding:4px 0;cursor:pointer}
+.nv button span{display:block;font-size:20px}
+.nv button[aria-selected="true"]{color:#1f5d50;border-top:3px solid #e4704f;margin-top:-6px;padding-top:7px}
+button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid #c98a1b;outline-offset:2px}
+#log{display:flex;flex-direction:column;gap:7px}
+.m{max-width:82%;padding:8px 12px;border-radius:16px;white-space:pre-wrap;box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.m.u{align-self:flex-end;background:#1f5d50;color:#fff;border-bottom-right-radius:4px}
+.m.b{align-self:flex-start;background:#fff;border-bottom-left-radius:4px}
+.chips{display:flex;gap:6px;overflow-x:auto;padding:8px 14px 0}
+.chips button{flex:none;border:1px solid #1f5d50;background:#fff;color:#1f5d50;border-radius:18px;padding:6px 11px;font:600 12px inherit;cursor:pointer}
+.row{display:flex;gap:8px;padding:8px 14px 10px}
+input,textarea{flex:1;width:100%;border:1px solid #cfdcd5;border-radius:20px;padding:10px 14px;font:inherit;background:#fff;color:#1d2b26}
+textarea{border-radius:14px}
+.btn{border:0;border-radius:20px;background:#1f5d50;color:#fff;padding:10px 16px;font:700 14px inherit;cursor:pointer}
+.btn.o{background:#fff;color:#1f5d50;border:1.5px solid #1f5d50}
+.cd{background:#fff;border-radius:16px;padding:12px;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.it{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.it small{color:#62736c}
+.bar{height:7px;border-radius:5px;background:#e3ece7;margin-top:8px;overflow:hidden}.bar i{display:block;height:100%;border-radius:5px}
+.tag{padding:3px 9px;border-radius:9px;font-size:11px;font-weight:700;white-space:nowrap}
+.ok{background:#dff1e8}.warn{background:#fbefd3}.bad{background:#fadcd5}
+.sum{display:flex;gap:8px;margin-bottom:10px}.sum div{flex:1;border-radius:14px;padding:10px;background:#1f5d50;color:#fff;font-size:12px}.sum b{display:block;font-size:24px}
+.q{font-weight:700;margin:12px 0 6px}
+.sc{display:flex;gap:6px}.sc button{flex:1;padding:10px 0;border-radius:12px;border:1px solid #cfdcd5;background:#fff;font:700 14px inherit;cursor:pointer}
+.sc button[aria-pressed="true"]{background:#1f5d50;color:#fff}
+#cam{position:absolute;inset:0;background:#0d1512;z-index:8;display:none;flex-direction:column;align-items:center;justify-content:center;color:#fff;gap:16px}
+#cam.on{display:flex}
+.vf{position:relative;width:220px;height:150px;border:3px solid #e4704f;border-radius:16px;background:repeating-linear-gradient(90deg,#fff 0 3px,transparent 3px 7px,#fff 7px 9px,transparent 9px 14px);opacity:.9}
+.vf:after{content:"";position:absolute;left:0;right:0;height:3px;background:#2a8c7a;box-shadow:0 0 12px #2a8c7a;animation:ln 1.1s linear infinite}
+@keyframes ln{0%{top:0}100%{top:100%}}
+#spl{position:absolute;inset:0;z-index:7;background:radial-gradient(circle at 30% 20%,#2a8c7a,#12382f 70%);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:30px;transition:opacity .35s}
+#spl.x{opacity:0;pointer-events:none}
+#spl .av{width:104px;height:104px;border-width:4px}
+#spl h1{margin:6px 0 0;font-size:32px;letter-spacing:-.5px}#spl p{margin:0 0 18px;opacity:.85}
+#spl .btn{background:#e4704f;padding:13px 34px;font-size:16px}
+#toast{position:absolute;left:50%;bottom:84px;transform:translateX(-50%);background:#12382f;color:#fff;padding:9px 15px;border-radius:18px;font-size:13px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:6;white-space:nowrap}
+#toast.s{opacity:1}
+@media(max-width:480px){.stage{padding:0}.phone{height:100dvh;border-radius:0;padding:0;box-shadow:none}.screen{border-radius:0}.notch{display:none}.cap{display:none}}
+@media(prefers-reduced-motion:reduce){.vf:after{animation:none}#spl{transition:none}}
+</style></head><body><div class="stage"><div class="phone"><div class="screen">
+<div class="notch"></div>
+<div id="spl"><div class="av"></div><h1>VitalStock</h1><p>& Eco-Beauty<br>Tu inventario, desde el chat que ya usas.</p><button class="btn" id="go">Entrar</button></div>
+<div id="cam"><div class="vf"></div><div>Escaneando producto…</div></div>
+<div id="toast"></div>
+<div class="sb"><span>9:41</span><span>📶 🔋</span></div>
+<div class="hd"><div class="av"></div><div><b id="ttl">VitalStock Bot</b><small id="sub">en línea</small></div></div>
+<section class="bd" id="p0" style="display:flex;flex-direction:column;padding:0"><div class="bd" id="log2" style="padding:12px 14px"><div id="log"></div></div><div class="chips" id="chips"></div><div class="row"><input id="msg" placeholder="Escribe como en WhatsApp…" autocomplete="off"><button class="btn" id="send">Enviar</button></div></section>
+<section class="bd" id="p1" hidden><div class="sum" id="sum"></div><div id="inv"></div><button class="btn" id="scan" style="width:100%">📷 Escanear un producto</button></section>
+<section class="bd" id="p2" hidden><p style="margin:0 0 10px;color:#62736c">Insumos que otros negocios del barrio no alcanzarán a usar antes de vencer.</p><div id="off"></div><button class="btn" id="pub" style="width:100%">Publicar mis productos por vencer</button></section>
+<section class="bd" id="p3" hidden><div class="q" style="margin-top:0">1. ¿Este problema le parece relevante?</div><div class="sc" id="s1"></div><div class="q">2. ¿Usaría esta solución?</div><div class="sc" id="s2"></div><div class="q">3. ¿Qué le cambiaría o mejoraría?</div><textarea id="fb" rows="4" placeholder="Escribe aquí tu comentario"></textarea><div style="height:10px"></div><button class="btn" id="copy" style="width:100%">Copiar mis respuestas</button></section>
+<nav class="nv" id="tabs" role="tablist"></nav>
+</div></div><p class="cap">Prototipo interactivo: toca, escribe y prueba como si fueras el dueño de una barbería o un salón.</p></div>
+<script>
+var $=function(s){return document.querySelector(s)};
+var items=[{n:"Shampoo",k:"shampoo",s:8,m:4,d:90},{n:"Tinte",k:"tinte",s:6,m:5,d:160},{n:"Gel fijador",k:"gel",s:3,m:4,d:40},{n:"Keratina",k:"keratina",s:2,m:3,d:12},{n:"Cera",k:"cera",s:10,m:3,d:9}];
+var offers=[{w:"Barbería El Corte",t:"3 frascos de gel",d:"vencen en 20 días · a 4 cuadras"},{w:"Salón Aura",t:"2 mascarillas",d:"vencen en 14 días · a 9 cuadras"}];
+var got={},published=false,r1=0,r2="";
+function norm(t){return t.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"")}
+function toast(t){var e=$("#toast");e.textContent=t;e.className="s";setTimeout(function(){e.className=""},2200)}
+function state(i){return i.s<=i.m?["bad","Bajo mínimo","#e4704f"]:i.d<=15?["warn","Vence pronto","#c98a1b"]:["ok","Al día","#2a8c7a"]}
+function num(t){var m=t.match(/\d+/);return m?+m[0]:1}
+function reply(raw){var t=norm(raw),i=items.filter(function(x){return t.indexOf(x.k)>-1})[0],l;
+ if(!i&&/vence|vencer|vencimiento/.test(t)){l=items.filter(function(x){return x.d<=15});return l.length?"Por vencer pronto: "+l.map(function(x){return x.n+" ("+x.d+" días)"}).join(", ")+". Puedes ofrecerlos en Eco-Beauty.":"Nada vence en los próximos 15 días."}
+ if(!i&&/falta|agota|pedir|reponer/.test(t)){l=items.filter(function(x){return x.s<=x.m});return l.length?"Debes reponer: "+l.map(function(x){return x.n+" ("+x.s+", mínimo "+x.m+")"}).join(", ")+".":"Todo está por encima del mínimo."}
+ if(!i)return "No reconocí el producto. Prueba con “gasté 2 tintes” o “llegaron 10 shampoos”.";
+ if(/gaste|use|consumi/.test(t)){var q=num(t);i.s=Math.max(0,i.s-q);var r="Listo, descontré "+q+" de "+i.n+". Quedan "+i.s+".";if(i.s<=i.m)r+="\n⚠️ Está bajo el mínimo ("+i.m+"). Te recomiendo reponerlo pronto.";return r}
+ if(/llego|recibi|compre|entro/.test(t)){var c=num(t);i.s+=c;return "Registrado: +"+c+" de "+i.n+". Ahora tienes "+i.s+"."}
+ return "De "+i.n+" te quedan "+i.s+" (mínimo "+i.m+") y vence en "+i.d+" días."}
+function say(t,c){var d=document.createElement("div");d.className="m "+c;d.textContent=t;$("#log").appendChild(d);$("#log2").scrollTop=1e5}
+function send(v){v=(v||$("#msg").value).trim();if(!v)return;$("#msg").value="";say(v,"u");$("#sub").textContent="escribiendo…";setTimeout(function(){say(reply(v),"b");$("#sub").textContent="en línea";drawInv()},500)}
+function drawInv(){var lo=items.filter(function(i){return i.s<=i.m}).length,ex=items.filter(function(i){return i.d<=15}).length;
+ $("#sum").innerHTML='<div><b>'+lo+'</b>por reponer</div><div style="background:#c98a1b"><b>'+ex+'</b>por vencer</div>';
+ $("#inv").innerHTML=items.map(function(i){var s=state(i),w=Math.min(100,Math.round(i.s/(i.m*2)*100));return '<div class="cd"><div class="it"><div><b>'+i.n+'</b><br><small>Stock '+i.s+' · mínimo '+i.m+' · vence en '+i.d+' días</small></div><span class="tag '+s[0]+'">'+s[1]+'</span></div><div class="bar"><i style="width:'+w+'%;background:'+s[2]+'"></i></div></div>'}).join("")}
+function drawOff(){$("#off").innerHTML=offers.map(function(o,n){return '<div class="cd it"><div><b>'+o.t+'</b><br><small>'+o.w+'<br>'+o.d+'</small></div><button class="btn'+(got[n]?"":" o")+'" data-n="'+n+'">'+(got[n]?"Solicitado ✓":"Lo quiero")+'</button></div>'}).join("")}
+function scale(id,vals,cb){var e=$(id);e.innerHTML=vals.map(function(v){return '<button aria-pressed="false">'+v+'</button>'}).join("");e.onclick=function(ev){var b=ev.target.closest("button");if(!b)return;[].forEach.call(e.children,function(x){x.setAttribute("aria-pressed","false")});b.setAttribute("aria-pressed","true");cb(b.textContent)}}
+var names=[["💬","Bot"],["📦","Inventario"],["♻️","Eco-Beauty"],["⭐","Opinión"]],heads=["VitalStock Bot","Mi inventario","Eco-Beauty","Tu opinión"];
+function show(n){names.forEach(function(_,i){var p=$("#p"+i);p.hidden=i!==n;if(i===0)p.style.display=n===0?"flex":"none";$("#tabs").children[i].setAttribute("aria-selected",i===n)});$("#ttl").textContent=heads[n];$("#sub").textContent=n===0?"en línea":"VitalStock"}
+$("#tabs").innerHTML=names.map(function(t){return '<button role="tab"><span>'+t[0]+'</span>'+t[1]+'</button>'}).join("");
+$("#tabs").onclick=function(e){var i=[].indexOf.call(this.children,e.target.closest("button"));if(i>-1)show(i)};
+["Gasté 2 tintes","Llegaron 10 shampoos","¿Qué se vence pronto?","¿Qué me falta?","¿Cuánto gel me queda?"].forEach(function(t){var b=document.createElement("button");b.textContent=t;b.onclick=function(){send(t)};$("#chips").appendChild(b)});
+$("#go").onclick=function(){$("#spl").className="x"};
+$("#send").onclick=function(){send()};$("#msg").onkeydown=function(e){if(e.key==="Enter")send()};
+$("#scan").onclick=function(){$("#cam").className="on";setTimeout(function(){$("#cam").className="";var i=items[Math.floor(Math.random()*items.length)];i.s++;drawInv();toast("Escaneado: "+i.n+" (+1). Stock: "+i.s)},1500)};
+$("#off").onclick=function(e){var b=e.target.closest("button");if(!b)return;var n=+b.dataset.n;got[n]=!got[n];drawOff()};
+$("#pub").onclick=function(){if(published)return toast("Ya publicaste tus productos por vencer");var l=items.filter(function(x){return x.d<=15});l.forEach(function(x){offers.unshift({w:"Tu negocio",t:x.s+" de "+x.n,d:"vencen en "+x.d+" días · publicado ahora"})});published=true;drawOff();toast(l.length+" productos publicados")};
+scale("#s1",[1,2,3,4,5],function(v){r1=v});scale("#s2",["Sí","Tal vez","No"],function(v){r2=v});
+$("#copy").onclick=function(){var t="Validación VitalStock & Eco-Beauty\nRelevancia del problema: "+(r1||"sin responder")+"/5\n¿Usaría la solución?: "+(r2||"sin responder")+"\nQué cambiaría: "+($("#fb").value||"sin comentario");try{navigator.clipboard.writeText(t).then(function(){toast("Respuestas copiadas")},function(){$("#fb").value=t;toast("Copia el texto manualmente")})}catch(e){$("#fb").value=t;toast("Copia el texto manualmente")}};
+say("Hola 👋 Soy VitalStock. Cuéntame qué gastaste o recibiste, o pregúntame qué se vence.","b");drawInv();drawOff();show(0);
+</script></body></html>
